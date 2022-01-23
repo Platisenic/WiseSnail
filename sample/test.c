@@ -10,10 +10,9 @@
 
 #define SERVER_URL		"127.0.0.1"
 #define SERVER_PORT		1883
-
 #define SENSOR_DEVICE1_MAC	"000E4C000000"
 
-#define SAMPLE_RATE    122
+#define SAMPLE_RATE    122  // target 1000
 #define BUFFER_SIZE    (SAMPLE_RATE*4 + 20)
 
 
@@ -186,15 +185,19 @@ int main (void)
         memset(datas, 0, sizeof(datas) / sizeof(char));
 		for(size_t i=0; i<15; i++) {
 			for(size_t j=0; j<BUFFER_SIZE - 1; j++) {
-            	datas[i][j] = (count%26) +'a';
-        	}
+            			datas[i][j] = (count%26) + 'a';
+        		}
 		}
 
 		memset(rssi, 0, sizeof(rssi) / sizeof(char));
-        sprintf(rssi, "%d", BUFFER_SIZE - 1);
+		for(size_t i=0; i<5-1; i++) {
+			rssi[i] = (count%26) + 'a';
+		}
 
 		memset(battery, 0, sizeof(battery) / sizeof(char));
-		sprintf(battery, "%d", BUFFER_SIZE - 1);
+		for(size_t i=0; i<5-1; i++) {
+			battery[i] = (count%26) + 'a';
+		}
 
 		printf("\r\n****** \033[33mSend update.\033[0m ******\r\n");
 		WiseSnail_Update(SENSOR_DEVICE1_MAC, data, sizeof(data) / sizeof(WiseSnail_Data));
